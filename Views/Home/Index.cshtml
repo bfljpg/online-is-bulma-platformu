@@ -1,8 +1,114 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿
+@{
+    ViewData["Title"] = "Ana Sayfa";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    /* Konteyner */
+    .content {
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    /* Başlık */
+    h1 {
+        font-size: 2.5em; /* Daha büyük başlık boyutu */
+    }
+
+    /* Görsel */
+    .image-container img {
+        max-width: 300px; /* Görsel boyutunu sınırla */
+        height: auto;
+        border-radius: 8px;
+        margin: 15px 0;
+    }
+
+    /* Giriş formu */
+    .login-form {
+        margin-top: 20px;
+        width: 100%;
+        max-width: 400px; /* Form genişliğini sınırla */
+    }
+
+        .login-form input[type="text"],
+        .login-form input[type="password"] {
+            width: calc(100% - 20px); /* Form elemanlarını ortala */
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .login-form button {
+            width: 100%; /* Buton tam genişlik */
+            padding: 10px;
+            color: #fff;
+            background-color: #6a9fb5;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+            .login-form button:hover {
+                background-color: #5589a4;
+            }
+
+    /* Alt bağlantı */
+    .features-link,
+    .employer-login,
+    .job-seeker-login {
+        display: inline-block;
+        margin-top: 20px;
+        text-decoration: none;
+        color: #6a9fb5;
+        font-weight: bold;
+        font-size: 1.1em;
+    }
+
+        .features-link:hover,
+        .employer-login:hover,
+        .job-seeker-login:hover {
+            color: #5589a4;
+        }
+
+    /* İşveren Girişi Butonu */
+    .employer-login,
+    .job-seeker-login {
+        margin-top: 15px;
+        padding: 10px 20px;
+        background-color: #6a9fb5;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        font-size: 1.2em;
+    }
+
+        .employer-login:hover,
+        .job-seeker-login:hover {
+            background-color: #5589a4;
+        }
+</style>
+
+<div class="container">
+    <!-- İçerik -->
+    <div class="content">
+        <h1>Hoş Geldiniz!</h1>
+        <p>İş arayanlar ve işverenler için yenilikçi bir çözüm.</p>
+
+        <!-- Görsel -->
+        <div class="image-container">
+            <img src="assets/onlineiş.webp" alt="Kullanıcı Giriş Arayüzü" />
+        </div>
+
+        <!-- İş Arayan Girişi Butonu -->
+        <a class="job-seeker-login" asp-area="" asp-controller="Home" asp-action="Login">İş Arayan Girişi</a>
+
+        <!-- İşveren Girişi Butonu -->
+        <a class="employer-login" asp-area="" asp-controller="Home" asp-action="Login2">İşveren Girişi</a>
+    </div>
 </div>
+

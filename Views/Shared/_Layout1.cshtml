@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Online İş Bulma Platformu</title>
+    <link rel="stylesheet" href="~/css/style.css" />
+    <style>
+        /* Konteyner */
+        .content {
+          text-align: center;
+          box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h2>Online İş Bulma Platformu</h2>
+        <div class="nav-links">
+            <a asp-area="" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+            <a asp-area="" asp-controller="Home" asp-action="About">Hakkımızda</a>
+            <a asp-area="" asp-controller="Home" asp-action="Contact">İletişim</a>
+        </div>
+    </header>
+
+	<!-- Main content -->
+	@RenderBody()
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Online İş Bulma Platformu</p>
+        <div class="nav-links">
+            <a asp-area="" asp-controller="Home" asp-action="Privacy">Gizlilik Politikası</a>
+            <a asp-area="" asp-controller="Home" asp-action="Terms">Kullanım Şartları</a>
+        </div>
+    </footer>
+</body>
+</html>
