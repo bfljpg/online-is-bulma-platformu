@@ -4,38 +4,74 @@
     Layout = "~/Views/Shared/_Layout1.cshtml";
 }
 
+<style>
+    .content {
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .table {
+        padding: 10px;
+        border-collapse: collapse;
+        border: 1px solid #ddd;
+        width: 100%;
+        table-layout: fixed;
+    }
+
+        .table th, td {
+            text-align: left;
+            border: dashed 1px #ccc;
+            padding: 10px;
+            text-align: center;
+            word-wrap: break-word;
+        }
+
+            .table th:nth-child(2), /* Açıklama sütunu */
+            .table td:nth-child(2) {
+                white-space: normal; /* Uzun açıklamalar için metni sarar */
+            }
+</style>
+
 @model IEnumerable<online_is_bulma_platformu.Models.JobListing>
 
-<h2>İlanlar</h2>
+<div class="container">
+    <div class="content">
+        <h2>İlanlar</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Başlık</th>
-            <th>Açıklama</th>
-            <th>Oluşturulma Tarihi</th>
-            <th>Son Tarih</th>
-            <th>İşlem</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var listing in Model)
-        {
-            <tr>
-                <td>@listing.Title</td>
-                <td>@listing.Description</td>
-                <td>@listing.CreatedAt.ToString("yyyy-MM-dd")</td>
-                <td>@listing.Deadline?.ToString("yyyy-MM-dd") ?? "Belirtilmemiş"</td>
-                <td>
-                    <form asp-action="Apply" asp-controller="JobSeeker" method="post">
-                        <input type="hidden" name="jobListingId" value="@listing.Id" />
-                        <textarea name="message" placeholder="Başvuru mesajınızı yazın" class="form-control"></textarea>
-                        <button type="submit" class="btn btn-primary">Başvur</button>
-                    </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width: 15%;">Başlık</th>
+                    <th style="width: 40%;">Açıklama</th> <!-- Açıklama kısmına daha fazla genişlik veriyoruz -->
+                    <th style="width: 10%;">Oluşturulma Tarihi</th>
+                    <th style="width: 10%;">Son Tarih</th>
+                    <th style="width: 25%;">İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var listing in Model)
+                {
+                    <tr>
+                        <td>@listing.Title</td>
+                        <td>@listing.Description</td>
+                        <td>@listing.CreatedAt.ToString("yyyy-MM-dd")</td>
+                        <td>@listing.Deadline?.ToString("yyyy-MM-dd")</td>
+                        <td>
+                            <form asp-action="Apply" asp-controller="JobSeeker" method="post">
+                                <input type="hidden" name="jobListingId" value="@listing.Id" />
+                                <textarea name="message" placeholder="Başvuru mesajınızı yazın" class="form-control"></textarea>
+                                <button type="submit" class="btn btn-primary">Başvur</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
 

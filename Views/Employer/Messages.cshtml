@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewData["Title"] = "Messages";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<style>
+    .content {
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .table {
+        padding: 10px;
+        border-collapse: collapse;
+        border: 1px solid #ddd;
+        width: 100%;
+        table-layout: fixed;
+    }
+
+        .table th, td {
+            text-align: left;
+            border: dashed 1px #ccc;
+            padding: 10px;
+            text-align: center;
+            word-wrap: break-word;
+        }
+
+            .table th:nth-child(2), /* Açıklama sütunu */
+            .table td:nth-child(2) {
+                white-space: normal; /* Uzun açıklamalar için metni sarar */
+            }
+</style>
+@model IEnumerable<dynamic>
+
+<div class="container">
+    <div class="content">
+        <h2>Gelen Mesajlar</h2>
+
+        @if (!Model.Any())
+        {
+            <p>Henüz bir mesaj almadınız.</p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Gönderen</th>
+                        <th>İş İlanı</th>
+                        <th>Mesaj</th>
+                        <th>Gönderilme Tarihi</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var message in Model)
+                    {
+                        <tr>
+                            <td>@message.SenderName</td>
+                            <td>@message.JobTitle</td>
+                            <td>@message.Message</td>
+                            <td>@message.SentAt.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>
+                                <div class="modal fade" id="replyModal-@message.SenderName-@message.SentAt.Ticks" tabindex="-1" aria-labelledby="replyModalLabel-@message.SenderName-@message.SentAt.Ticks" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form asp-action="ReplyMessage" asp-controller="Employer" method="post">
+                                                <div class="modal-body">
+                                                    <input type="hidden" name="receiverId" value="@message.SenderId" />
+                                                    <input type="hidden" name="jobListingId" value="@message.JobListingId" />
+                                                    <textarea name="message" class="form-control" placeholder="Yanıtınızı yazın..." required></textarea>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                                    <button type="submit" class="btn btn-primary">Gönder</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

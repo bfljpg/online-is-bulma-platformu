@@ -59,6 +59,60 @@ namespace online_is_bulma_platformu.Controllers
             return RedirectToAction("JobListings");
         }
 
+        [HttpGet]
+        public IActionResult Messages()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "RoleBased");
+            }
+
+            // Ýþ arayanýn aldýðý mesajlarý çek
+            var messages = _context.UserMessages
+                .Where(m => m.ReceiverId == userId)
+                .Select(m => new
+                {
+                    m.SenderId,                             // Gönderen ID'si eklendi
+                    SenderName = m.Sender.FirstName + " " + m.Sender.LastName,
+                    JobTitle = m.JobListing.Title,
+                    m.Message,
+                    m.SentAt,
+                    m.JobListingId                          // Ýlan ID'si eklendi
+                })
+                .OrderByDescending(m => m.SentAt)          // En son mesajlarý üstte göstermek için sýralama
+                .ToList();
+
+            return View(messages);
+        }
+
+
+        [HttpPost]
+        public IActionResult ReplyMessage(int receiverId, int jobListingId, string message)
+        {
+            var senderId = HttpContext.Session.GetInt32("UserId");
+            if (senderId == null)
+            {
+                return RedirectToAction("Login", "RoleBased");
+            }
+
+            // Yanýt olarak yeni mesaj oluþtur
+            var replyMessage = new UserMessage
+            {
+                SenderId = senderId.Value, // Yanýt gönderen iþ arayan
+                ReceiverId = receiverId,  // Yanýt alan iþveren
+                JobListingId = jobListingId, // Ýlgili iþ ilaný
+                Message = message,
+                SentAt = DateTime.Now
+            };
+
+            _context.UserMessages.Add(replyMessage);
+            _context.SaveChanges();
+
+            return RedirectToAction("Messages"); // Mesajlar sayfasýna geri dön
+        }
+
+
         public IActionResult Logout()
         {
             _httpContextAccessor.HttpContext.Session.Clear();

@@ -4,29 +4,81 @@
     Layout = "~/Views/Shared/_Layout1.cshtml";
 }
 
+<style>
+    .content {
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .table {
+        padding: 10px;
+        border-collapse: collapse;
+        border: 1px solid #ddd;
+        width: 100%;
+        table-layout: fixed;
+    }
+
+        .table th, td {
+            text-align: left;
+            border: dashed 1px #ccc;
+            padding: 10px;
+            text-align: center;
+            word-wrap: break-word;
+        }
+
+            .table th:nth-child(2), /* Açıklama sütunu */
+            .table td:nth-child(2) {
+                white-space: normal; /* Uzun açıklamalar için metni sarar */
+            }
+</style>
+
 @model IEnumerable<dynamic>
 
-<h2>Başvurular</h2>
+<div class="container">
+    <div class="content">
+        <h2>Başvurular</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Ad Soyad</th>
-            <th>Mesaj</th>
-            <th>Başvuru Tarihi</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var application in Model)
-        {
-            <tr>
-                <td>@application.JobSeekerName</td>
-                <td>@application.Message</td>
-                <td>@application.ApplicationDate.ToString("yyyy-MM-dd")</td>
-            </tr>
-        }
-    </tbody>
-</table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Ad Soyad</th>
+                    <th>İş İlanı</th>
+                    <th>Mesaj</th>
+                    <th>Başvuru Tarihi</th>
+                    <th>İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var application in Model)
+                {
+                    <tr>
+                        <td>@application.JobSeekerName</td>
+                        <td>@application.JobTitle</td>
+                        <td>@application.Message</td>
+                        <td>@application.ApplicationDate.ToString("yyyy-MM-dd")</td>
+                        <td>
+                            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#replyModal-@application.Id">Yanıt Ver</button>
 
-
+                            <!-- Modal -->
+                            <div class="modal fade" id="replyModal-@application.Id" tabindex="-1" aria-labelledby="replyModalLabel-@application.Id" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="replyModalLabel-@application.Id">Yanıt Ver</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 

@@ -4,5 +4,104 @@
     Layout = "~/Views/Shared/_Layout1.cshtml";
 }
 
-<h1>Dashboard</h1>
+    <style>
+      /* İçeriği ve öğeleri ortalamak */
+      .content {
+        padding: 20px;
+        box-sizing: border-box;
+        align-items: center;
+        justify-content: flex-start; /* İçeriği yukarıya doğru hizalayın */
+        text-align: center;
+      }
+
+      /* Ana özelliklerin yazısı ve başlıkları */
+      .features-section {
+        width: 100%;
+        max-width: 1200px; /* İçeriğin genişliğini sınırlamak için */
+        text-align: center;
+        margin-top: 30px;
+      }
+
+      .feature {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center; /* İçeriği ortala */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 10px 0; /* Her bir özelliği ayıran boşluk */
+      }
+
+      /* Görselleri Büyüt ve Ortala */
+      .feature img {
+        width: 80px; /* Görsel boyutunu büyüt */
+        height: 80px;
+        margin-bottom: 15px;
+        object-fit: contain; /* Görselin oranlarını koru */
+      }
+
+      .feature h2 {
+        font-size: 1.5em;
+        color: #4a4a4a;
+        margin: 10px 0;
+      }
+
+      .feature p {
+        font-size: 1em;
+        color: #555;
+      }
+
+      /* Detaylı İncele Butonu */
+      .feature a {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 8px 16px;
+        background-color: #a4c4c7;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 0.9em;
+      }
+
+      .feature a:hover {
+        background-color: #89b0b3;
+      }
+    </style>
+
+<div class="container">
+    <!-- İçerik -->
+    <div class="content">
+        <h1>Platform Özellikleri</h1>
+        <p>Aşağıda platformumuzun ana özelliklerini bulabilirsiniz:</p>
+        <!-- Ana Özellikler Bölümü -->
+        <div class="features-section">
+            <!-- Başvuruları Görüntüle -->
+            <div class="feature">
+                <img src="assets/başvurularıgörüntüle.png"
+                     alt="Başvuruları Görüntüle" />
+                <h2>Başvuruları Görüntüle</h2>
+                <p>
+                    İşverenler başvuruları yönetebilir, adaylar ile iletişime
+                    geçebilir.
+                </p>
+                <a asp-area="" asp-controller="Employer" asp-action="Applications">Başvuruları Görüntüle</a>
+            </div>
+            <!--
+            <div class="feature">
+                <img src="https://cdn0.iconfinder.com/data/icons/thin-communication-messaging/57/thin-038_comment_chat_message-1024.png"
+                     alt="Yorumları Görüntüle" />
+                <h2>Yorumları Görüntüle</h2>
+                <p>
+                    İşverenler, adayların yorumlarını
+                    görüntüleyebilir.
+                </p>
+                <a href="isverenmesajsayfası.html">Detaylı İncele</a>
+            </div>
+            -->
+        </div>
+    </div>
+</div>
 
