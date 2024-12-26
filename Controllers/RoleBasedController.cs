@@ -27,7 +27,6 @@ namespace online_is_bulma_platformu.Controllers
         [HttpPost]
         public IActionResult Login(string email, string password)
         {
-            // User tablosundan kullanıcının e-posta ve şifresini kontrol et
             var user = _context.Users.FirstOrDefault(u => u.Email == email && u.PasswordHash == password);
 
             if (user == null)
@@ -37,8 +36,10 @@ namespace online_is_bulma_platformu.Controllers
             }
 
             // Kullanıcı bilgilerini Session'a kaydet
-            _httpContextAccessor.HttpContext.Session.SetString("UserRole", user.Role);
-            _httpContextAccessor.HttpContext.Session.SetString("UserName", user.FirstName);
+            // Oturum değişkenlerini ayarla
+            HttpContext.Session.SetInt32("UserId", user.Id);
+            HttpContext.Session.SetString("UserName", user.FirstName + " " + user.LastName);
+            HttpContext.Session.SetString("UserRole", user.Role);
 
             // Kullanıcının rolüne göre yönlendirme
             if (user.Role == "Admin")
@@ -78,5 +79,41 @@ namespace online_is_bulma_platformu.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Register(string firstName, string lastName, string email, string password, string role)
+        {
+            // Kullanıcı mevcut mu kontrol et
+            var existingUser = _context.Users.FirstOrDefault(u => u.Email == email);
+
+            if (existingUser != null)
+            {
+                ViewBag.ErrorMessage = "Bu e-posta adresi zaten kayıtlı.";
+                return View();
+            }
+
+            // Yeni kullanıcı oluştur
+            var newUser = new User
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Email = email,
+                PasswordHash = password,
+                Role = role
+            };
+
+            // Veritabanına ekle
+            _context.Users.Add(newUser);
+            _context.SaveChanges();
+
+            // Otomatik giriş yapılabilir veya giriş sayfasına yönlendirebilir
+            ViewBag.SuccessMessage = "Kayıt başarılı! Lütfen giriş yapın.";
+            return RedirectToAction("Login");
+        }
     }
 }

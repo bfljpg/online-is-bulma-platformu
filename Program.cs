@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Session;
 using Microsoft.EntityFrameworkCore;
 using online_is_bulma_platformu.Data;
 
@@ -35,6 +36,8 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseSession(); // Session middleware burada çaðrýlmalý
 app.UseAuthorization();
+
+
 
 app.MapControllerRoute(
     name: "default",

@@ -45,5 +45,16 @@ namespace online_is_bulma_platformu.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        protected bool IsLoggedIn()
+        {
+            return HttpContext.Session.GetInt32("UserId") != null;
+        }
+
+        protected IActionResult RedirectToLogin()
+        {
+            return RedirectToAction("Login", "RoleBased");
+        }
+        
     }
+
 }
