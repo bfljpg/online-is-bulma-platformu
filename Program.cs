@@ -5,16 +5,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
-<<<<<<< HEAD
-=======
-// Add DbContext with connection string
+var connectionString = builder.Configuration.GetConnectionString("JobPortalDB");
 builder.Services.AddDbContext<JobPortalContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("JobPortalDB")));
 
 var app = builder.Build();
 
->>>>>>> parent of 9fd0bdd (remove issued session attributes)
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -24,5 +20,9 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

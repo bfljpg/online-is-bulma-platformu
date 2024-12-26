@@ -1,5 +1,7 @@
+using System.Data.Entity;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using online_is_bulma_platformu.Data;
 using online_is_bulma_platformu.Models;
 
@@ -42,16 +44,6 @@ namespace online_is_bulma_platformu.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        public ActionResult Index31()
-        {
-            using (var context = new JobPortalContext())
-            {
-                context.Users.Add(new User { FirstName = "Ali", LastName = "Yýlmaz", Email = "ali@example.com", PasswordHash = "123456", Role = "Employer", CreatedAt = DateTime.Now });
-                context.SaveChanges();
-            }
-            return View();
         }
     }
 }
