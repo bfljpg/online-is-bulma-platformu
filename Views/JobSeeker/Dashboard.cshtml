@@ -4,5 +4,121 @@
     Layout = "~/Views/Shared/_Layout1.cshtml";
 }
 
-<h1>Dashboard</h1>
+<style>
+    /* İçeriği ve öğeleri ortalamak */
+    .content {
+        width: 100%; /* Tam ekran genişliği */
+        box-sizing: border-box;
+        text-align: center;
+        min-height: calc( 100vh - 120px ); /* Header ve footer'ı göz önünde bulundurur */
+    }
+
+    /* Üst Kısım Özellikler */
+    .features-grid-top {
+        display: grid;
+        grid-template-columns: repeat( auto-fit, minmax(250px, 1fr) ); /* Grid kolonlarının genişliğini ayarla */
+        gap: 20px;
+        width: 100%;
+        max-width: 1200px; /* İçeriğin genişliğini sınırlamak için */
+        justify-items: center; /* Grid elemanlarını yatayda ortala */
+        margin-bottom: 40px;
+    }
+
+    /* Alt Kısım Özellikler */
+    .features-grid-bottom {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        width: 100%;
+        max-width: 1200px;
+        margin-top: auto; /* Alt kısımdaki öğeleri sayfanın altına itmek için */
+    }
+
+    .feature {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center; /* İçeriği ortala */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+        /* Görselleri Büyüt ve Ortala */
+        .feature img {
+            width: 80px; /* Görsel boyutunu büyüt */
+            height: 80px;
+            margin-bottom: 15px;
+            object-fit: contain; /* Görselin oranlarını koru */
+        }
+
+        .feature h2 {
+            font-size: 1.5em;
+            color: #4a4a4a;
+            margin: 10px 0;
+        }
+
+        .feature p {
+            font-size: 1em;
+            color: #555;
+        }
+
+        .feature a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #a4c4c7;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+
+            .feature a:hover {
+                background-color: #89b0b3;
+            }
+</style>
+
+<div class="container">
+    <!-- İçerik -->
+    <div class="content">
+        <h1>Platform Özellikleri</h1>
+        <p>Aşağıda platformumuzun ana özelliklerini bulabilirsiniz:</p>
+
+        <!-- Üst Kısım Özellikler -->
+        <div class="features-grid-top">
+            <div class="feature">
+                <h2>İş İlanlarını Görüntüle</h2>
+                <p>
+                    Kullanıcılar kategorilere göre iş ilanlarını filtreleyip
+                    arayabilir.
+                </p>
+                <a asp-area="" asp-controller="JobSeeker" asp-action="JobListings">Detaylı İncele</a>
+            </div>
+            <div class="feature">
+                <h2>Başvuru Süreci</h2>
+                <p>
+                    İş arayanlar kolayca iş ilanlarına başvurabilir, işverenler
+                    başvuruları inceleyebilir.
+                </p>
+                <a asp-area="" asp-controller="JobSeeker" asp-action="JobListings">Detaylı İncele</a>
+            </div>
+        </div>
+
+        <!-- Alt Kısım Özellikler -->
+        <div class="features-grid-bottom">
+            <div class="feature">
+                <h2>Mesajlaşma Sistemi</h2>
+                <p>
+                    İş arayanlar ve işverenler arasında etkili bir iletişim sağlar.
+                </p>
+                <a asp-area="" asp-controller="JobSeeker" asp-action="Messages">Detaylı İncele</a>
+            </div>
+        </div>
+    </div>
+</div>
 
