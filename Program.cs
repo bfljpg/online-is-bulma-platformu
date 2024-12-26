@@ -3,14 +3,9 @@ using online_is_bulma_platformu.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
-// Add DbContext with connection string
-builder.Services.AddDbContext<JobPortalContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("JobPortalDB")));
-
 var app = builder.Build();
+
+builder.Services.AddDistributedMemoryCache();
 
 if (!app.Environment.IsDevelopment())
 {
