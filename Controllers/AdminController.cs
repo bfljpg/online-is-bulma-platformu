@@ -1,39 +1,33 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using online_is_bulma_platformu.Data;
-using System.Linq;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace online_is_bulma_platformu.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly JobPortalContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AdminController(JobPortalContext context)
+        public AdminController(IHttpContextAccessor httpContextAccessor)
         {
-            _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public IActionResult Index()
+        public IActionResult Dashboard()
         {
-            var allUsers = _context.Users.ToList();
-            return View(allUsers);
-        }
-
-        public IActionResult ManageJobs()
-        {
-            var allJobs = _context.JobListings.ToList();
-            return View(allJobs);
-        }
-
-        public IActionResult DeleteUser(int id)
-        {
-            var user = _context.Users.Find(id);
-            if (user != null)
+            if (_httpContextAccessor.HttpContext.Session.GetString("UserRole") != "Admin")
             {
-                _context.Users.Remove(user);
-                _context.SaveChanges();
+                return RedirectToAction("Login", "RoleBased");
             }
-            return RedirectToAction("Index");
+
+            ViewBag.UserName = _httpContextAccessor.HttpContext.Session.GetString("UserName");
+            return View();
+        }
+
+        public IActionResult Logout()
+        {
+            _httpContextAccessor.HttpContext.Session.Clear();
+            return RedirectToAction("Login", "RoleBased");
         }
     }
 }
+

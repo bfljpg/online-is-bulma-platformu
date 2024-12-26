@@ -1,47 +1,32 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using online_is_bulma_platformu.Data;
-using online_is_bulma_platformu.Models;
-using System.Linq;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace online_is_bulma_platformu.Controllers
 {
     public class EmployerController : Controller
     {
-        private readonly JobPortalContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public EmployerController(JobPortalContext context)
+        public EmployerController(IHttpContextAccessor httpContextAccessor)
         {
-            _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public IActionResult MyJobs(int employerId)
+        public IActionResult Dashboard()
         {
-            var myJobs = _context.JobListings.Where(j => j.EmployerId == employerId).ToList();
-            return View(myJobs);
-        }
+            if (_httpContextAccessor.HttpContext.Session.GetString("UserRole") != "Employer")
+            {
+                return RedirectToAction("Login", "RoleBased");
+            }
 
-        public IActionResult CreateJob()
-        {
+            ViewBag.UserName = _httpContextAccessor.HttpContext.Session.GetString("UserName");
             return View();
         }
 
-        [HttpPost]
-        public IActionResult CreateJob(JobListing job)
+        public IActionResult Logout()
         {
-            _context.JobListings.Add(job);
-            _context.SaveChanges();
-            return RedirectToAction("MyJobs", new { employerId = job.EmployerId });
-        }
-
-        public IActionResult DeleteJob(int id)
-        {
-            var job = _context.JobListings.Find(id);
-            if (job != null)
-            {
-                _context.JobListings.Remove(job);
-                _context.SaveChanges();
-            }
-            return RedirectToAction("MyJobs", new { employerId = job.EmployerId });
+            _httpContextAccessor.HttpContext.Session.Clear();
+            return RedirectToAction("Login", "RoleBased");
         }
     }
 }

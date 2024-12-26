@@ -21,6 +21,21 @@
             <a asp-area="" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
             <a asp-area="" asp-controller="Home" asp-action="About">Hakkımızda</a>
             <a asp-area="" asp-controller="Home" asp-action="Contact">İletişim</a>
+            
+            @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+            <ul class="navbar-nav ms-auto">
+                @if (HttpContextAccessor.HttpContext.Session.GetString("UserRole") != null)
+                {
+                <a href="@Url.Action("Dashboard", HttpContextAccessor.HttpContext.Session.GetString("UserRole"))">Dashboard</a>
+                <a href="@Url.Action("Logout", "RoleBased")">Çıkış Yap</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Login", "RoleBased")">Giriş Yap</a>
+                }
+            </ul>
+            
         </div>
     </header>
 

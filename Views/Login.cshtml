@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewData["Title"] = "Giriş Yap";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<h1>View</h1>
+
+<h2>Giriş Yap</h2>
+
+<form asp-action="Login" asp-controller="RoleBased" method="post">
+    <div class="form-group">
+        <label for="email">E-posta:</label>
+        <input type="email" id="email" name="email" class="form-control" placeholder="E-posta adresinizi girin" required />
+    </div>
+    <div class="form-group">
+        <label for="password">Şifre:</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Şifrenizi girin" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Giriş Yap</button>
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <p style="color: red;">@ViewBag.ErrorMessage</p>
+    }
+</form>
