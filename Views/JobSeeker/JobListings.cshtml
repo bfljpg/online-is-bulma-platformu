@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+@model IEnumerable<online_is_bulma_platformu.Models.JobListing>
+
+<h2>İlanlar</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Başlık</th>
+            <th>Açıklama</th>
+            <th>Oluşturulma Tarihi</th>
+            <th>Son Tarih</th>
+            <th>İşlem</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var listing in Model)
+        {
+            <tr>
+                <td>@listing.Title</td>
+                <td>@listing.Description</td>
+                <td>@listing.CreatedAt.ToString("yyyy-MM-dd")</td>
+                <td>@listing.Deadline?.ToString("yyyy-MM-dd") ?? "Belirtilmemiş"</td>
+                <td>
+                    <form asp-action="Apply" asp-controller="JobSeeker" method="post">
+                        <input type="hidden" name="jobListingId" value="@listing.Id" />
+                        <textarea name="message" placeholder="Başvuru mesajınızı yazın" class="form-control"></textarea>
+                        <button type="submit" class="btn btn-primary">Başvur</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

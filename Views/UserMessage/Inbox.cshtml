@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewData["Title"] = "Gelen Mesajlar";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+@model IEnumerable<dynamic>
+
+<h2>Gelen Mesajlar</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Gönderen</th>
+            <th>İlan</th>
+            <th>Mesaj</th>
+            <th>Tarih</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var message in Model)
+        {
+            <tr>
+                <td>@message.SenderName</td>
+                <td>@message.Title</td>
+                <td>@message.Message</td>
+                <td>@message.SentAt.ToString("yyyy-MM-dd HH:mm")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

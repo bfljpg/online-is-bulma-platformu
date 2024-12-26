@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewData["Title"] = "Mesaj Gönder";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+@model dynamic
+
+<h2>Mesaj Gönder</h2>
+
+<form asp-action="Send" asp-controller="UserMessage" method="post">
+    <input type="hidden" name="receiverId" value="@Model.ReceiverId" />
+    <input type="hidden" name="jobListingId" value="@Model.JobListingId" />
+    <div class="form-group">
+        <textarea name="message" class="form-control" placeholder="Mesajınızı yazın..." required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Gönder</button>
+</form>
+
+

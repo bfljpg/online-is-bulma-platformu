@@ -53,20 +53,36 @@ namespace online_is_bulma_platformu.Controllers
         public IActionResult JobListings()
         {
             var employerId = HttpContext.Session.GetInt32("UserId");
-            var listings = _context.JobListings.Where(j => j.EmployerId == employerId).ToList();
+            if (employerId == null)
+            {
+                return RedirectToAction("Login", "RoleBased");
+            }
+
+            var listings = _context.JobListings
+                .Where(j => j.EmployerId == employerId)
+                .ToList();
+
             return View(listings);
         }
 
+
+
+        // Yeni ilan ekleme sayfasý
         [HttpGet]
         public IActionResult CreateJobListing()
         {
             return View();
         }
 
+        // Yeni ilan ekle
         [HttpPost]
         public IActionResult CreateJobListing(JobListing jobListing)
         {
             var employerId = HttpContext.Session.GetInt32("UserId");
+            if (employerId == null)
+            {
+                return RedirectToAction("Login", "RoleBased");
+            }
 
             jobListing.EmployerId = employerId.Value;
             jobListing.CreatedAt = DateTime.Now;
@@ -75,6 +91,44 @@ namespace online_is_bulma_platformu.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("JobListings");
+        }
+
+        // Ýlan sil
+        [HttpPost]
+        public IActionResult DeleteJobListing(int id)
+        {
+            var jobListing = _context.JobListings.FirstOrDefault(j => j.Id == id);
+            if (jobListing == null || jobListing.EmployerId != HttpContext.Session.GetInt32("UserId"))
+            {
+                return Unauthorized();
+            }
+
+            _context.JobListings.Remove(jobListing);
+            _context.SaveChanges();
+
+            return RedirectToAction("JobListings");
+        }
+
+        [HttpGet]
+        public IActionResult Applications(int jobListingId)
+        {
+            var employerId = HttpContext.Session.GetInt32("UserId");
+            if (employerId == null)
+            {
+                return RedirectToAction("Login", "RoleBased");
+            }
+
+            var applications = _context.JobApplications
+                .Where(a => a.JobListingId == jobListingId && a.JobListing.EmployerId == employerId)
+                .Select(a => new
+                {
+                    a.Id,
+                    JobSeekerName = a.JobSeeker.FirstName + " " + a.JobSeeker.LastName,
+                    a.Message,
+                    a.ApplicationDate
+                }).ToList();
+
+            return View(applications);
         }
 
 

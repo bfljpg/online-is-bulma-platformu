@@ -10,5 +10,6 @@
         public DateTime? Deadline { get; set; }
 
         public virtual User Employer { get; set; }
+        public virtual ICollection<JobApplication> JobApplications { get; set; } // İlişki eklendi
     }
 }
